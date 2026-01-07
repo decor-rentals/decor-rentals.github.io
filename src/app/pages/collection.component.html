@@ -1,6 +1,10 @@
 <ng-container *ngIf="collection as p">
   <section class="product-hero"></section>
 
+  <div class="back-row">
+    <a class="back-link" [routerLink]="['/collections']">← Back to collections</a>
+  </div>
+
   <section class="product-body">
     <!-- Thumbnails Sidebar (Left) -->
       <div class="thumbnails-sidebar" [class.is-empty]="mediaCount <= 1">
