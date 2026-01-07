@@ -127,7 +127,7 @@ collections:
             widget: object
             fields:
               - { label: Price, name: price, widget: string, value_type: float, min: 0 }
-              - { label: Currency, name: currency, widget: select, options: [EUR, USD, GBP], default: EUR }
+              - { label: Currency, name: currency, widget: select, options: [EUR, USD, GBP, INR], default: EUR }
       - { label: Tags, name: tags, widget: list, required: false }
       - label: Images
         name: images
@@ -191,7 +191,7 @@ collections:
         fields:
           - { label: Tier Name, name: name, widget: select, options: [Silver, Gold, Diamond] }
           - { label: Price, name: price, widget: string, value_type: float, min: 0 }
-          - { label: Currency, name: currency, widget: select, options: [EUR, USD, GBP], default: EUR }
+          - { label: Currency, name: currency, widget: select, options: [EUR, USD, GBP, INR], default: EUR }
           - label: Included Items
             name: items
             widget: list

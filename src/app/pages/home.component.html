@@ -109,7 +109,15 @@
           <div class="card-overlay"></div>
           <div class="card-caption">
             <h3>{{ product.name }}</h3>
-            <p class="price" *ngIf="product.priceLabel">{{ product.priceLabel }}</p>
+            <p class="price" *ngIf="product.priceMin !== null && product.priceMax !== null">
+              <ng-container *ngIf="product.priceMin === product.priceMax; else homeRange">
+                {{ product.priceMin | currency:product.currency:'symbol':'1.2-2' }}
+              </ng-container>
+              <ng-template #homeRange>
+                {{ product.priceMin | currency:product.currency:'symbol':'1.2-2' }} - 
+                {{ product.priceMax | currency:product.currency:'symbol':'1.2-2' }}
+              </ng-template>
+            </p>
           </div>
         </article>
         <!-- See All Card -->

@@ -38,7 +38,15 @@
       <figcaption class="caption">
         <div class="show-cont">
           <h3 class="media-title">{{ product.name }}</h3>
-          <p class="card-price" *ngIf="product.priceLabel">{{ product.priceLabel }}</p>
+          <p class="card-price" *ngIf="product.priceMin !== null && product.priceMax !== null">
+            <ng-container *ngIf="product.priceMin === product.priceMax; else range">
+              {{ product.priceMin | currency:product.currency:'symbol':'1.2-2' }}
+            </ng-container>
+            <ng-template #range>
+              {{ product.priceMin | currency:product.currency:'symbol':'1.2-2' }} - 
+              {{ product.priceMax | currency:product.currency:'symbol':'1.2-2' }}
+            </ng-template>
+          </p>
         </div>
       </figcaption>
 
