@@ -1,0 +1,119 @@
+/* Contact hero removed per design */
+
+/* Contact Section */
+.contact-section {
+  background: transparent; /* show balloons behind */
+  padding: 40px 16px;
+  min-height: 40vh;
+}
+
+/* containers removed */
+
+/* center headings */
+.contact-section h2,
+.contact-section .subtitle {
+  text-align: center;
+}
+
+.contact-section h2 {
+  font-size: 2rem; /* bigger heading */
+  color: #1F3D3A;
+  margin-bottom: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: rgba(31, 61, 58, 0.7);
+  margin-bottom: 60px;
+  line-height: 1.6;
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* avoid horizontal scrollbar */
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: transparent;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-link:hover {
+  color: #F86A2E;
+}
+
+/* icon wrapper removed */
+
+/* scale icon on hover without moving card */
+.social-link:hover svg {
+  transform: scale(1.08);
+}
+
+.social-link svg {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.2s ease;
+}
+
+.link-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1F3D3A;
+  transition: color 0.3s ease;
+}
+
+.social-link:hover .link-text {
+  color: #F86A2E;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* hero removed */
+
+  .contact-section h2 {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 40px;
+  }
+
+  .social-links { gap: 10px; }
+
+  .social-link { padding: 6px 10px; }
+
+  .contact-section { padding: 32px 12px; }
+}
+
+@media (max-width: 480px) {
+  /* hero removed */
+
+  .contact-section h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+
+  /* icon wrapper removed */
+
+  .social-link svg { width: 20px; height: 20px; }
+
+  .link-text {
+    font-size: 1rem;
+  }
+}

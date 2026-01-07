@@ -97,11 +97,13 @@ await indexDir('content/event-types', 'event-types.json', (e) => ({
 /**
  * CONTEXT:
  * - Product index includes rental pricing for list view display
+ * - Includes description field for search functionality
  * - Null coalescing handles missing rental object gracefully
  */
 await indexDir('content/products', 'products.json', (p) => ({
   id: p.id,
   name: p.name,
+  description: p.description || '',
   currency: variantCurrency(p),
   priceMin: variantPrices(p)?.min ?? null,
   priceMax: variantPrices(p)?.max ?? null,

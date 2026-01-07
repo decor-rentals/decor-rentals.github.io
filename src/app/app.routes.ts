@@ -18,5 +18,6 @@ export const routes: Routes = [
   { path: 'event/:id', loadComponent: () => import('./pages/event.component').then(m => m.EventComponent) },
   { path: 'collection/:id', loadComponent: () => import('./pages/collection.component').then(m => m.CollectionComponent) },
   { path: 'product/:id', loadComponent: () => import('./pages/product.component').then(m => m.ProductComponent) },
+    { path: 'contact', loadComponent: () => import('./pages/contact.component').then(m => m.ContactComponent) },
   { path: '**', redirectTo: '' }
 ];

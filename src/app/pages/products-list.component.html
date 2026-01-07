@@ -17,6 +17,19 @@
   <div class="glow glow-2"></div>
 </section>
 
+<!-- Search Section -->
+<section class="search-section">
+  <div class="search-container">
+    <input 
+      type="text" 
+      class="search-input" 
+      placeholder="Search products..."
+      [(ngModel)]="searchQuery"
+      (input)="onSearchChange()"
+    />
+  </div>
+</section>
+
 <section class="app-page">
   <div class="app-grid">
     <article *ngFor="let product of products" class="app-card" [routerLink]="['/product', product.id]">
