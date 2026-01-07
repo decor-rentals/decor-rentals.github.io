@@ -43,7 +43,9 @@ import { RequestListService } from '../services/request-list.service';
   styles: [`
     .fab {
       position: fixed; right: 16px; bottom: 16px; z-index: 1000;
-      background: #1F3D3A; color: #FFF7E8; border: 0; border-radius: 999px;
+      background: linear-gradient(to right, #E94E3B, #2CA8D9);
+      transform: scale(1.05);
+      color: #FFF7E8; border: 0; border-radius: 999px;
       padding: 12px 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.2); cursor: pointer;
       font-size: 18px; display: inline-flex; align-items: center; gap: 8px;
     }
@@ -82,6 +84,6 @@ export class RequestListFabComponent {
   clear() { this.svc.clear(); }
 
   // TODO: set target number here or via config
-  private phone = '+353860000000';
+  private phone = '+353899737746';
   waLink() { return this.svc.buildWhatsAppLink(this.phone); }
 }
