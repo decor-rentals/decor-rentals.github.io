@@ -27,7 +27,7 @@ A modern static Angular site for event décor rentals. Content is Git-backed via
 ### 2) Install & Run
 ```bash
 npm install
-./scripts/run-local.sh
+bash ./scripts/run-local.sh
 ```
 
 Open http://localhost:4200
@@ -43,8 +43,8 @@ Site: **https://niranjankaruna.github.io/**
 
 - **Categories** - Product categories
 - **Event Types** - Birthday, Baby Shower, etc.
-- **Products** - Individual rental items
-- **Collections** - Curated packages with tiers
+- **Products** - Individual rental items (pricing lives on **variants**)
+- **Collections** - Curated packages with **tiers** (each tier has items that reference product IDs)
 
 All use relations (no hardcoded dropdowns).
 
@@ -55,7 +55,6 @@ All use relations (no hardcoded dropdowns).
 - `/events` - All event types
 - `/collections` - All packages
 - `/products` - All rental items
-- `/search` - Search everything
 - `/admin` - CMS (login required)
 
 ---
@@ -63,10 +62,17 @@ All use relations (no hardcoded dropdowns).
 ## Scripts
 
 ```bash
-./scripts/run-local.sh      # Clean + dev server
-npm run dev                 # Dev server only
-npm run build               # Production build
-./scripts/clean-ignored.sh  # Delete gitignored files
+# Recommended local dev entrypoint (non-interactive):
+bash ./scripts/run-local.sh      # Start dev server (no cleaning)
+bash ./scripts/run-local.sh c    # Clean gitignored files, then start dev server
+
+# Under the hood:
+npm run dev                       # Generates indexes + validates content + starts ng serve
+npm run dev:prepare               # Build indexes + validate references + generate sitemap
+npm run validate                  # Validate content references only
+
+# Build:
+npm run build                      # Production build (also runs dev:prepare)
 ```
 
 ---
@@ -78,6 +84,20 @@ CMS Edit → Save → Commits to main → Auto Build & Deploy
 ```
 
 No drafts, no approvals - direct publishing.
+
+---
+
+## Generated Indexes (important)
+
+List pages do **not** fetch every JSON file individually.
+
+- Indexes are generated into `content/indexes/*.json` by `npm run dev:prepare` (and therefore also by `npm run dev` / `npm run build`).
+- The `content/indexes/` folder is intentionally gitignored and regenerated on each build/deploy.
+- Detail pages fetch the full JSON from `content/**`.
+
+Notes:
+- GitHub Pages / CDNs can serve stale JSON; the app adds a cache-busting query param when fetching content.
+- Media paths may come from the CMS as `/assets/...`; the app normalizes paths so they work under a GitHub Pages subdirectory.
 
 ---
 

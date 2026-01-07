@@ -6,8 +6,8 @@ import { firstValueFrom } from 'rxjs';
  * CONTEXT:
  * - Uses Promise-based API (async/await) instead of Observables for simpler component consumption
  * - Converts HttpClient Observable to Promise via firstValueFrom for one-time fetches
- * - In-memory cache prevents redundant network requests during single session
- * - Relative paths (no leading slash) required for GitHub Pages subdirectory compatibility
+ * - Adds a cache-busting query param to reduce issues with stale JSON on static hosting/CDNs
+ * - Fetch paths are relative (no leading slash) so they respect <base href> on GitHub Pages
  * - withCredentials: false explicitly set to avoid CORS preflight on static JSON
  */
 @Injectable({ providedIn: 'root' })
@@ -44,8 +44,8 @@ export class ContentService {
 
   /**
    * CONTEXT:
-   * - Slug parameter maps to filename (e.g., 'birthday' -> 'birthday.json')
-   * - CMS uses 'id' as identifier_field; slug/id used interchangeably in routes
+    * - Route parameter maps to filename (e.g., 'birthday' -> 'birthday.json')
+    * - CMS uses 'id' as identifier_field; in this repo `id` must match the JSON filename
    */
   getEvent(slug: string) { return this.get<any>(`content/event-types/${slug}.json`); }
   getProduct(slug: string) { return this.get<any>(`content/products/${slug}.json`); }

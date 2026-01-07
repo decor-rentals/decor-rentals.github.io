@@ -84,9 +84,14 @@ await indexDir('content/categories', 'categories.json', (c) => ({
  * CONTEXT:
  * - Event index includes image for card thumbnails
  * - tileImage preferred over images array for explicit tile control
+ * - Image paths are normalized to work with GitHub Pages base-href
  */
 await indexDir('content/event-types', 'event-types.json', (e) => ({
-  id: e.id, name: e.name, summary: e.summary || '', image: (e.tileImage || (e.images?.[0] || '')), status: e.status || 'published'
+  id: e.id,
+  name: e.name,
+  summary: e.summary || '',
+  image: normalizeAssetPath(e.tileImage || (e.images?.[0] || '')),
+  status: e.status || 'published'
 }));
 
 /**
@@ -119,7 +124,10 @@ await indexDir('content/products', 'products.json', (p) => ({
  * - Set used to deduplicate products appearing in multiple tiers
  */
 await indexDir('content/collections', 'collections.json', (pkg) => ({
-  id: pkg.id, name: pkg.name, eventType: pkg.eventType, image: (pkg.images?.[0] || ''),
+  id: pkg.id,
+  name: pkg.name,
+  eventType: pkg.eventType,
+  image: firstImage(pkg.images),
   tiers: (pkg.tiers || []).map(t => ({ name: t.name, price: t.price, currency: t.currency, items: t.items?.map(i => i.product) || [] })),
   productIds: [...new Set((pkg.tiers || []).flatMap(t => (t.items || []).map(i => i.product)))],
   status: pkg.status || 'published'

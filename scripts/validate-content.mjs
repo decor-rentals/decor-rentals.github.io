@@ -4,7 +4,8 @@
  * - Ensures referential integrity between collections and products
  * - Exits with code 1 on validation failure to break CI pipeline
  * - Only validates collection->product references; category references not checked
- * - Uses filename (minus .json) as id; CMS stores references by 'id' field
+ * - Canonical product identifier is the JSON `id` field
+ * - Filenames are expected to match `id` (routes use the filename)
  */
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -16,10 +17,25 @@ const collectionsDir = 'content/collections';
 
 /**
  * CONTEXT:
- * - Builds set of valid product ids from filenames
- * - Filename convention: {id}.json where id matches CMS identifier_field
+ * - Builds set of valid product ids from JSON
+ * - Enforces filename convention: {id}.json where id matches CMS identifier_field
  */
-const productIds = new Set((await readdir(productsDir)).filter(f=>f.endsWith('.json')).map(f=>f.replace('.json','')));
+const productIds = new Set();
+for (const f of (await readdir(productsDir)).filter(f => f.endsWith('.json'))) {
+  const filenameId = f.replace('.json', '');
+  const product = await readJSON(join(productsDir, f));
+  const jsonId = product?.id;
+
+  if (!jsonId || typeof jsonId !== 'string') {
+    console.error(`❌ Product '${f}' is missing a string 'id' field`);
+    process.exit(1);
+  }
+  if (jsonId !== filenameId) {
+    console.error(`❌ Product id/filename mismatch: file '${f}' has id '${jsonId}'`);
+    process.exit(1);
+  }
+  productIds.add(jsonId);
+}
 
 let ok = true;
 for (const f of await readdir(collectionsDir)) {

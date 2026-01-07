@@ -1,13 +1,12 @@
 <div class="home-page">
-  <!-- Hero Card (matches event detail style) -->
-  <section class="hero" style="background-image: url('/assets/hero-bg.jpg')">
+  <!-- Hero Section -->
+  <section class="hero" style="background-image: url('assets/hero-bg.jpg')">
     <div class="media-overlay"></div>
     <span class="after"></span>
 
     <div class="hero-content">
       <h1>Welcome to Decor Rentals</h1>
       <p>Why buy when you can rent?</p>
-      <a routerLink="/events" class="hero-btn">Explore Events</a>
     </div>
 
     <!-- Sparkles -->
@@ -22,5 +21,106 @@
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
     <div class="glow glow-3"></div>
+  </section>
+
+  <!-- Events Section -->
+  <section class="carousel-section">
+    <div class="section-header">
+      <h2>Events</h2>
+      <a routerLink="/events" class="see-all-link">See All →</a>
+    </div>
+    <div class="carousel-wrapper">
+      <button class="carousel-arrow carousel-arrow-left" (click)="scroll(eventsCarousel, 'left')">‹</button>
+      <div class="carousel" #eventsCarousel>
+        <article *ngFor="let evt of events" class="carousel-card" [routerLink]="['/event', evt.id]">
+          <div
+            class="card-media"
+            *ngIf="evt.image"
+            [ngStyle]="{ 'background-image': 'url(' + normalizeAssetPath(evt.image) + ')' }"
+          ></div>
+          <div class="card-media card-media-fallback" *ngIf="!evt.image"></div>
+          <div class="card-overlay"></div>
+          <div class="card-caption">
+            <h3>{{ evt.name }}</h3>
+            <p *ngIf="evt.summary">{{ evt.summary }}</p>
+          </div>
+        </article>
+        <!-- See All Card -->
+        <article class="carousel-card see-all-card" routerLink="/events">
+          <div class="see-all-content">
+            <span class="see-all-icon">→</span>
+            <span class="see-all-text">See All Events</span>
+          </div>
+        </article>
+      </div>
+      <button class="carousel-arrow carousel-arrow-right" (click)="scroll(eventsCarousel, 'right')">›</button>
+    </div>
+  </section>
+
+  <!-- Collections Section -->
+  <section class="carousel-section">
+    <div class="section-header">
+      <h2>Collections</h2>
+      <a routerLink="/collections" class="see-all-link">See All →</a>
+    </div>
+    <div class="carousel-wrapper">
+      <button class="carousel-arrow carousel-arrow-left" (click)="scroll(collectionsCarousel, 'left')">‹</button>
+      <div class="carousel" #collectionsCarousel>
+        <article *ngFor="let collection of collections" class="carousel-card" [routerLink]="['/collection', collection.id]">
+          <div
+            class="card-media"
+            *ngIf="collection.image"
+            [ngStyle]="{ 'background-image': 'url(' + normalizeAssetPath(collection.image) + ')' }"
+          ></div>
+          <div class="card-media card-media-fallback" *ngIf="!collection.image"></div>
+          <div class="card-overlay"></div>
+          <div class="card-caption">
+            <h3>{{ collection.name }}</h3>
+          </div>
+        </article>
+        <!-- See All Card -->
+        <article class="carousel-card see-all-card" routerLink="/collections">
+          <div class="see-all-content">
+            <span class="see-all-icon">→</span>
+            <span class="see-all-text">See All Collections</span>
+          </div>
+        </article>
+      </div>
+      <button class="carousel-arrow carousel-arrow-right" (click)="scroll(collectionsCarousel, 'right')">›</button>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="carousel-section">
+    <div class="section-header">
+      <h2>Products</h2>
+      <a routerLink="/products" class="see-all-link">See All →</a>
+    </div>
+    <div class="carousel-wrapper">
+      <button class="carousel-arrow carousel-arrow-left" (click)="scroll(productsCarousel, 'left')">‹</button>
+      <div class="carousel" #productsCarousel>
+        <article *ngFor="let product of products" class="carousel-card" [routerLink]="['/product', product.id]">
+          <div
+            class="card-media"
+            *ngIf="product.image"
+            [ngStyle]="{ 'background-image': 'url(' + normalizeAssetPath(product.image) + ')' }"
+          ></div>
+          <div class="card-media card-media-fallback" *ngIf="!product.image"></div>
+          <div class="card-overlay"></div>
+          <div class="card-caption">
+            <h3>{{ product.name }}</h3>
+            <p class="price" *ngIf="product.priceLabel">{{ product.priceLabel }}</p>
+          </div>
+        </article>
+        <!-- See All Card -->
+        <article class="carousel-card see-all-card" routerLink="/products">
+          <div class="see-all-content">
+            <span class="see-all-icon">→</span>
+            <span class="see-all-text">See All Products</span>
+          </div>
+        </article>
+      </div>
+      <button class="carousel-arrow carousel-arrow-right" (click)="scroll(productsCarousel, 'right')">›</button>
+    </div>
   </section>
 </div>

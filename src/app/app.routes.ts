@@ -3,7 +3,8 @@ import { Routes } from '@angular/router';
 /**
  * CONTEXT:
  * - All routes use lazy loading via dynamic import for optimal bundle splitting
- * - Route parameter ':id' corresponds to content 'id' field in CMS (identifier_field)
+ * - Route parameter ':id' corresponds to the content 'id' field in CMS (identifier_field)
+ *   and should match the JSON filename (e.g. content/products/<id>.json)
  * - List routes (/events, /collections, /products) fetch from auto-generated indexes
  * - Detail routes fetch individual JSON files from content folders
  * - /admin path excluded; served as static HTML by Angular build configuration
