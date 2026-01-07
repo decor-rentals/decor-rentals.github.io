@@ -176,6 +176,28 @@
   color: #999;
 }
 
+/* Add to request list button - matches Collection list 'View' */
+.add-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #F86A2E, #F9C441);
+  color: #FFF7E8;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(248, 106, 46, 0.3);
+  transition: all 0.4s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: linear-gradient(to right, #E94E3B, #2CA8D9);
+  transform: scale(1.05);
+}
+
 /* Included items (like specifications) */
 .included {
   padding: 16px 0;

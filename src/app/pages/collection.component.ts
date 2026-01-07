@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ContentService } from '../services/content.service';
 import { SeoService } from '../services/seo.service';
+import { RequestListService } from '../services/request-list.service';
 
 @Component({
   standalone: true,
@@ -16,6 +17,7 @@ export class CollectionComponent {
   private content = inject(ContentService);
   private seo = inject(SeoService);
   private sanitizer = inject(DomSanitizer);
+  private requests = inject(RequestListService);
 
   collection: any;
   tierIndex = 0;
@@ -29,6 +31,32 @@ export class CollectionComponent {
     const images = Array.isArray(this.collection?.images) ? this.collection.images.length : 0;
     const videos = Array.isArray(this.collection?.videos) ? this.collection.videos.length : 0;
     return images + videos;
+  }
+
+  private get selectedTierKey(): string {
+    const t = this.selectedTier;
+    return String(t?.id || t?.name || this.tierIndex || 0);
+  }
+
+  get isSelectedTierInRequestList(): boolean {
+    if (!this.collection) return false;
+    return this.requests.has('collection', this.collection.id, this.selectedTierKey);
+  }
+
+  toggleRequestList() {
+    if (!this.collection || !this.selectedTier) return;
+    const t = this.selectedTier;
+    this.requests.toggle({
+      kind: 'collection',
+      id: this.collection.id,
+      name: this.collection.name,
+      variantKey: this.selectedTierKey,
+      variantName: t.name,
+      quantity: 1,
+      price: t?.price ?? null,
+      currency: t?.currency ?? null,
+      image: (this.collection.images || [])[0] || null
+    });
   }
 
   get selectedTier(): any | null {

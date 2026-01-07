@@ -96,8 +96,24 @@
 
       <!-- Price Card -->
       <div class="price-card" *ngIf="displayRental">
-        <div class="amount">{{displayRental?.price | currency:displayRental?.currency}}</div>
+        <div class="amount">{{ (totalPrice ?? (displayRental?.price ?? 0)) | currency:displayRental?.currency }}</div>
         <div class="note">Standalone rental</div>
+
+        <div class="qty-row">
+          <label class="qty-label" for="qty">Quantity</label>
+          <input
+            id="qty"
+            class="qty-input"
+            type="number"
+            inputmode="numeric"
+            min="1"
+            [value]="quantity"
+            (input)="setQuantity($any($event.target).value)" />
+        </div>
+
+        <button type="button" class="add-btn" (click)="toggleRequestList()">
+          {{ isSelectedVariantInRequestList ? 'Remove from request list' : 'Add to request list' }}
+        </button>
       </div>
 
       <!-- Collections -->

@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ContentService } from '../services/content.service';
+import { RequestListService } from '../services/request-list.service';
 import { SeoService } from '../services/seo.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class ProductComponent {
   private content = inject(ContentService);
   private seo = inject(SeoService);
   private sanitizer = inject(DomSanitizer);
+  private requests = inject(RequestListService);
 
   product: any;
   usedIn: any[] = [];
@@ -23,6 +25,7 @@ export class ProductComponent {
   showVideo = false;
   sanitizedVideos: SafeResourceUrl[] = [];
   selectedVariantIndex = 0;
+  quantity = 1;
 
   get variants(): any[] {
     return Array.isArray(this.product?.variants) ? this.product.variants : [];
@@ -30,6 +33,43 @@ export class ProductComponent {
 
   get selectedVariant(): any | null {
     return this.variants[this.selectedVariantIndex] || this.variants[0] || null;
+  }
+
+  private get selectedVariantKey(): string {
+    const v = this.selectedVariant;
+    return String(v?.id || v?.sku || v?.name || this.selectedVariantIndex || 0);
+  }
+
+  get isSelectedVariantInRequestList(): boolean {
+    if (!this.product) return false;
+    return this.requests.has('product', this.product.id, this.selectedVariantKey);
+  }
+
+  toggleRequestList() {
+    if (!this.product || !this.selectedVariant) return;
+    const v = this.selectedVariant;
+    this.requests.toggle({
+      kind: 'product',
+      id: this.product.id,
+      name: this.product.name,
+      variantKey: this.selectedVariantKey,
+      variantName: v.name || undefined,
+      quantity: this.quantity || 1,
+      price: v?.rental?.price ?? null,
+      currency: v?.rental?.currency ?? null,
+      image: (this.product.images || [])[0] || null
+    });
+  }
+
+  setQuantity(value: unknown) {
+    const n = Number.parseInt(String(value ?? ''), 10);
+    this.quantity = Number.isFinite(n) && n > 0 ? n : 1;
+  }
+
+  get totalPrice(): number | null {
+    const unit = this.displayRental?.price;
+    if (!Number.isFinite(unit)) return null;
+    return Number(unit) * (this.quantity || 1);
   }
 
   selectVariant(index: number) {
@@ -52,6 +92,7 @@ export class ProductComponent {
     const id = this.route.snapshot.paramMap.get('id')!;
     this.product = await this.content.getProduct(id);
     this.selectedVariantIndex = 0;
+    this.quantity = 1;
     this.selectedImage = (this.product.images || [])[0] || null;
     const collections = await this.content.getCollectionsIndex();
     this.usedIn = collections.filter((p:any) => (p.productIds||[]).includes(id));

@@ -73,6 +73,9 @@
       <div class="price-card" *ngIf="selectedTier">
         <div class="amount">{{selectedTier.price | currency:selectedTier.currency}}</div>
         <div class="note">Collection tier price</div>
+        <button type="button" class="add-btn" (click)="toggleRequestList()">
+          {{ isSelectedTierInRequestList ? 'Remove from request list' : 'Add to request list' }}
+        </button>
       </div>
 
       <!-- Included Items -->
