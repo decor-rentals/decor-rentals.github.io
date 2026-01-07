@@ -197,12 +197,19 @@
   opacity: 1;
 }
 
-.nav-links.mobile a {
+.navbar .nav-links.mobile a {
   text-decoration: none;
   color: #FFF7E8;
-  padding: 10px 0;
+  display: block; /* ensure vertical padding takes effect across browsers */
+  padding: 16px 0; /* more vertical breathing room */
+  line-height: 1.6; /* taller line height for readability */
   font-size: 16px;
   transition: color 0.3s;
+}
+
+/* add small gap between list items without heavy visual separators */
+.navbar .nav-links.mobile li + li {
+  margin-top: 2px;
 }
 
 .nav-links.mobile a:hover,

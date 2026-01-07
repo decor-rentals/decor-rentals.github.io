@@ -7,8 +7,8 @@
 /* Hero Section */
 .hero {
   position: relative;
-  height: 25vh;
-  min-height: 200px;
+  height: 20vh;
+  min-height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
